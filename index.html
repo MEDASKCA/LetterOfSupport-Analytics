@@ -3,86 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Analytics Dashboard - Protected</title>
+  <title>Letter of Support Analytics Dashboard</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .login-container {
-      background: white;
-      border-radius: 12px;
-      padding: 40px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-      max-width: 400px;
-      width: 90%;
-    }
-    .login-container h1 {
-      color: #1a202c;
-      margin-bottom: 10px;
-      font-size: 24px;
-    }
-    .login-container p {
-      color: #718096;
-      margin-bottom: 30px;
-      font-size: 14px;
-    }
-    .form-group {
-      margin-bottom: 20px;
-    }
-    .form-group label {
-      display: block;
-      color: #4a5568;
-      font-weight: 600;
-      margin-bottom: 8px;
-      font-size: 14px;
-    }
-    .form-group input {
-      width: 100%;
-      padding: 12px;
-      border: 2px solid #e2e8f0;
-      border-radius: 6px;
-      font-size: 16px;
-      transition: border 0.2s;
-    }
-    .form-group input:focus {
-      outline: none;
-      border-color: #667eea;
-    }
-    .login-btn {
-      width: 100%;
-      background: #667eea;
-      color: white;
-      border: none;
-      padding: 14px;
-      border-radius: 6px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .login-btn:hover {
-      background: #5568d3;
-    }
-    .error-message {
-      background: #fed7d7;
-      color: #c53030;
-      padding: 12px;
-      border-radius: 6px;
-      margin-bottom: 20px;
-      font-size: 14px;
-      display: none;
-    }
-    .dashboard-container {
-      display: none;
-      max-width: 1400px;
-      width: 100%;
       padding: 20px;
+    }
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
     }
     .header {
       background: white;
@@ -90,23 +22,15 @@
       padding: 30px;
       margin-bottom: 20px;
       box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
     }
     .header h1 {
       color: #1a202c;
       font-size: 28px;
+      margin-bottom: 10px;
     }
-    .logout-btn {
-      background: #f56565;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 6px;
-      cursor: pointer;
+    .header p {
+      color: #718096;
       font-size: 14px;
-      font-weight: 600;
     }
     .stats {
       display: grid;
@@ -176,21 +100,6 @@
     }
     .clear-btn:hover {
       background: #e53e3e;
-    }
-    .export-btn {
-      background: #48bb78;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: 600;
-      margin-left: 10px;
-      transition: background 0.2s;
-    }
-    .export-btn:hover {
-      background: #38a169;
     }
     .filter-container {
       margin-bottom: 20px;
@@ -267,62 +176,63 @@
       font-size: 64px;
       margin-bottom: 20px;
     }
-    .webhook-notice {
-      background: #e6fffa;
-      border: 1px solid #81e6d9;
+    .webhook-setup {
+      background: #fff3cd;
+      border: 1px solid #ffc107;
       border-radius: 8px;
       padding: 15px;
       margin-bottom: 20px;
     }
-    .webhook-notice h3 {
-      color: #234e52;
+    .webhook-setup h3 {
+      color: #856404;
       font-size: 16px;
       margin-bottom: 10px;
     }
-    .webhook-notice p {
-      color: #234e52;
+    .webhook-setup p {
+      color: #856404;
       font-size: 14px;
       line-height: 1.6;
     }
-    .webhook-notice code {
+    .webhook-setup code {
       background: #fff;
       padding: 2px 6px;
       border-radius: 4px;
       font-family: monospace;
       font-size: 13px;
     }
+    .export-btn {
+      background: #48bb78;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      margin-left: 10px;
+      transition: background 0.2s;
+    }
+    .export-btn:hover {
+      background: #38a169;
+    }
   </style>
 </head>
 <body>
-  <!-- Login Screen -->
-  <div class="login-container" id="login-screen">
-    <h1>🔒 Analytics Dashboard</h1>
-    <p>Enter password to access analytics</p>
-    <div class="error-message" id="error-message">
-      Incorrect password. Please try again.
-    </div>
-    <form onsubmit="login(event)">
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" placeholder="Enter password" required autofocus>
-      </div>
-      <button type="submit" class="login-btn">🔓 Unlock Dashboard</button>
-    </form>
-  </div>
-
-  <!-- Dashboard (hidden until logged in) -->
-  <div class="dashboard-container" id="dashboard">
+  <div class="container">
     <div class="header">
-      <div>
-        <h1>📊 Letter of Support Analytics</h1>
-        <p style="color:#718096; margin-top:5px; font-size:14px;">Track who's viewing your NHS CEP endorsement form</p>
-      </div>
-      <button class="logout-btn" onclick="logout()">🔒 Logout</button>
+      <h1>📊 Letter of Support Analytics</h1>
+      <p>Track who's viewing your NHS CEP endorsement form</p>
     </div>
 
-    <div class="webhook-notice">
-      <h3>📡 Webhook Status</h3>
-      <p id="webhook-status">Checking connection...</p>
+    <div class="webhook-setup" id="webhook-notice">
+      <h3>⚠️ Webhook Setup Required</h3>
+      <p>
+        To enable permanent tracking, set up a webhook endpoint:<br><br>
+        <strong>Option 1 (Quick):</strong> Go to <a href="https://webhook.site" target="_blank">webhook.site</a>, copy your unique URL,
+        and replace <code>YOUR_WEBHOOK_URL_HERE</code> in index.html line 3575.<br><br>
+        <strong>Option 2 (Better):</strong> I can create a Google Apps Script for you that stores data in Google Sheets.
+        For now, the dashboard shows visits stored locally in your browser.
+      </p>
     </div>
 
     <div class="stats">
@@ -365,65 +275,17 @@
   </div>
 
   <script>
-    // Password configuration - CHANGE THIS!
-    const DASHBOARD_PASSWORD = 'NHScep2025';
-    const WEBHOOK_URL = 'YOUR_WEBHOOK_URL_HERE'; // Will be configured later
-
     let allVisits = [];
-    let isAuthenticated = false;
-
-    // Check if already logged in (session)
-    if (sessionStorage.getItem('dashboard_auth') === 'true') {
-      showDashboard();
-    }
-
-    function login(event) {
-      event.preventDefault();
-      const password = document.getElementById('password').value;
-
-      if (password === DASHBOARD_PASSWORD) {
-        sessionStorage.setItem('dashboard_auth', 'true');
-        showDashboard();
-      } else {
-        document.getElementById('error-message').style.display = 'block';
-        document.getElementById('password').value = '';
-      }
-    }
-
-    function logout() {
-      sessionStorage.removeItem('dashboard_auth');
-      document.getElementById('login-screen').style.display = 'flex';
-      document.getElementById('dashboard').style.display = 'none';
-      document.getElementById('password').value = '';
-    }
-
-    function showDashboard() {
-      isAuthenticated = true;
-      document.getElementById('login-screen').style.display = 'none';
-      document.getElementById('dashboard').style.display = 'block';
-      checkWebhookStatus();
-      loadVisits();
-    }
-
-    async function checkWebhookStatus() {
-      const statusEl = document.getElementById('webhook-status');
-
-      if (WEBHOOK_URL === 'YOUR_WEBHOOK_URL_HERE') {
-        statusEl.innerHTML = '⚠️ Webhook not configured. Currently showing local browser data only. <a href="#" onclick="alert(\'Follow ANALYTICS_SETUP.md to configure Google Sheets backend\'); return false;" style="color:#2c7a7b; font-weight:600;">Setup Instructions</a>';
-      } else {
-        statusEl.innerHTML = '✅ Connected to remote webhook. Data syncing across devices.';
-      }
-    }
 
     function loadVisits() {
-      if (!isAuthenticated) return;
-
-      // Load from localStorage for now
-      // TODO: Load from webhook/Google Sheets when configured
+      // Load from localStorage (client-side storage)
       const stored = localStorage.getItem('analytics_visits');
       allVisits = stored ? JSON.parse(stored) : [];
 
+      // Update stats
       updateStats();
+
+      // Display visits
       displayVisits(allVisits);
     }
 
@@ -439,7 +301,7 @@
       if (allVisits.length > 0) {
         const latest = new Date(allVisits[0].timestamp);
         const now = new Date();
-        const diff = Math.floor((now - latest) / 1000 / 60);
+        const diff = Math.floor((now - latest) / 1000 / 60); // minutes
 
         let timeAgo;
         if (diff < 1) timeAgo = 'Just now';
@@ -480,6 +342,7 @@
           ? `https://www.google.com/maps?q=${visit.latitude},${visit.longitude}`
           : '#';
 
+        // Get country flag emoji (basic version)
         const flag = getCountryFlag(visit.country);
 
         return `
@@ -536,8 +399,6 @@
     }
 
     function filterVisits() {
-      if (!isAuthenticated) return;
-
       const countryFilter = document.getElementById('filter-country').value.toLowerCase();
       const cityFilter = document.getElementById('filter-city').value.toLowerCase();
       const ipFilter = document.getElementById('filter-ip').value.toLowerCase();
@@ -553,7 +414,6 @@
     }
 
     function clearVisits() {
-      if (!isAuthenticated) return;
       if (confirm('Are you sure you want to clear all analytics data? This cannot be undone.')) {
         localStorage.removeItem('analytics_visits');
         allVisits = [];
@@ -562,7 +422,10 @@
     }
 
     function exportToCSV() {
-      if (!isAuthenticated || allVisits.length === 0) return;
+      if (allVisits.length === 0) {
+        alert('No data to export');
+        return;
+      }
 
       const headers = ['Timestamp', 'IP Address', 'Country', 'City', 'Region', 'Postal Code',
                        'Latitude', 'Longitude', 'Timezone', 'ISP', 'Referrer', 'User Agent',
@@ -589,13 +452,31 @@
 
     function getCountryFlag(country) {
       const flags = {
-        'United Kingdom': '🇬🇧', 'United States': '🇺🇸', 'Germany': '🇩🇪',
-        'France': '🇫🇷', 'India': '🇮🇳', 'China': '🇨🇳', 'Japan': '🇯🇵',
-        'Canada': '🇨🇦', 'Australia': '🇦🇺', 'Brazil': '🇧🇷', 'Spain': '🇪🇸',
-        'Italy': '🇮🇹', 'Netherlands': '🇳🇱', 'Sweden': '🇸🇪', 'Switzerland': '🇨🇭',
-        'Poland': '🇵🇱', 'Belgium': '🇧🇪', 'Ireland': '🇮🇪', 'Portugal': '🇵🇹',
-        'Nigeria': '🇳🇬', 'South Africa': '🇿🇦', 'Kenya': '🇰🇪', 'Ghana': '🇬🇭',
-        'Singapore': '🇸🇬', 'Philippines': '🇵🇭'
+        'United Kingdom': '🇬🇧',
+        'United States': '🇺🇸',
+        'Germany': '🇩🇪',
+        'France': '🇫🇷',
+        'India': '🇮🇳',
+        'China': '🇨🇳',
+        'Japan': '🇯🇵',
+        'Canada': '🇨🇦',
+        'Australia': '🇦🇺',
+        'Brazil': '🇧🇷',
+        'Spain': '🇪🇸',
+        'Italy': '🇮🇹',
+        'Netherlands': '🇳🇱',
+        'Sweden': '🇸🇪',
+        'Switzerland': '🇨🇭',
+        'Poland': '🇵🇱',
+        'Belgium': '🇧🇪',
+        'Ireland': '🇮🇪',
+        'Portugal': '🇵🇹',
+        'Nigeria': '🇳🇬',
+        'South Africa': '🇿🇦',
+        'Kenya': '🇰🇪',
+        'Ghana': '🇬🇭',
+        'Singapore': '🇸🇬',
+        'Philippines': '🇵🇭'
       };
       return flags[country] || '🌍';
     }
@@ -617,10 +498,11 @@
       return 'Unknown';
     }
 
-    // Auto-refresh every 30 seconds if logged in
-    setInterval(() => {
-      if (isAuthenticated) loadVisits();
-    }, 30000);
+    // Auto-refresh every 30 seconds
+    setInterval(loadVisits, 30000);
+
+    // Load on page load
+    loadVisits();
   </script>
 </body>
 </html>

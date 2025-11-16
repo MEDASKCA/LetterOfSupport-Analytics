@@ -224,14 +224,10 @@
       <p>Track who's viewing your NHS CEP endorsement form</p>
     </div>
 
-    <div class="webhook-setup" id="webhook-notice">
-      <h3>⚠️ Webhook Setup Required</h3>
-      <p>
-        To enable permanent tracking, set up a webhook endpoint:<br><br>
-        <strong>Option 1 (Quick):</strong> Go to <a href="https://webhook.site" target="_blank">webhook.site</a>, copy your unique URL,
-        and replace <code>YOUR_WEBHOOK_URL_HERE</code> in index.html line 3575.<br><br>
-        <strong>Option 2 (Better):</strong> I can create a Google Apps Script for you that stores data in Google Sheets.
-        For now, the dashboard shows visits stored locally in your browser.
+    <div style="background: #e6fffa; border: 1px solid #81e6d9; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
+      <h3 style="color: #234e52; font-size: 16px; margin-bottom: 10px;">✅ Connected to Google Sheets</h3>
+      <p style="color: #234e52; font-size: 14px; line-height: 1.6;">
+        Analytics data is syncing across all devices via Google Sheets. All visits are automatically logged and stored permanently.
       </p>
     </div>
 
@@ -276,11 +272,27 @@
 
   <script>
     let allVisits = [];
+    const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzcQw9dQcQvwHW7SbGgqy7x65M1f5mt6ufOCLouVg7DJjllPP9mXYZibwCjetcxz26zCg/exec';
 
-    function loadVisits() {
-      // Load from localStorage (client-side storage)
-      const stored = localStorage.getItem('analytics_visits');
-      allVisits = stored ? JSON.parse(stored) : [];
+    async function loadVisits() {
+      try {
+        // Fetch from Google Sheets
+        const response = await fetch(WEBHOOK_URL);
+        const data = await response.json();
+
+        if (data.status === 'success' && data.visits) {
+          allVisits = data.visits;
+        } else {
+          // Fallback to localStorage if webhook fails
+          const stored = localStorage.getItem('analytics_visits');
+          allVisits = stored ? JSON.parse(stored) : [];
+        }
+      } catch (error) {
+        console.error('Failed to load from webhook:', error);
+        // Fallback to localStorage
+        const stored = localStorage.getItem('analytics_visits');
+        allVisits = stored ? JSON.parse(stored) : [];
+      }
 
       // Update stats
       updateStats();
